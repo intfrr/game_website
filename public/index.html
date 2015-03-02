@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="gameWebsiteApp">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Game</title>
+  <meta name="description" content="">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="socket.io/socket.io.js"></script>
+  <link href="components/bootstrap/dist/css/bootstrap.css" rel="stylesheet">
+  <script>
+    var socket = io.connect('http://www.jordonias.com:1177');
+
+    socket.on('ping', function(data) {
+      console.log(data);
+      socket.emit('pong', {
+        status: 'OK'
+      });
+    });
+  </script>
+</head>
+<body>
+  <div class="container" style="margin-top: 20px;" ui-view></div>
+
+  <script src="components/angular/angular.js"></script>
+  <script src="components/ui-router/release/angular-ui-router.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
