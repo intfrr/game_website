@@ -2,6 +2,7 @@
  * Module dependencies
  */
 
+var api = require('./api');
 var config = require('./config');
 var express = require('express');
 var http = require('http');
@@ -17,14 +18,11 @@ var server = http.Server(app);
 var io = sio(server);
 var ports = seaport.connect('localhost', 9090);
 
-ports.get('game@0.0.0', function(ps) {
-  console.log(ps);
-});
-
 /**
  * Routes
  */
 
+app.use('/api', api);
 app.use(express.static(__dirname + '/public'));
 
 /**
