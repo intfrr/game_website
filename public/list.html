@@ -1,1 +1,12 @@
-List
+<table class="table">
+  <tr>
+    <th>Host</th>
+    <th>Port</th>
+    <th>Version</th>
+  </tr>
+  <tr ng-repeat="server in servers">
+    <td>{{server.host}}</td>
+    <td>{{server.port}}</td>
+    <td>{{server.version}}</td>
+  </tr>
+</table>

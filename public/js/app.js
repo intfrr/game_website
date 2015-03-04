@@ -1,7 +1,8 @@
 'use strict';
 
 angular.module('gameWebsiteApp', [
-  'ui.router'
+  'ui.router',
+  'ngResource'
 ])
 
 /**
@@ -44,6 +45,14 @@ function($scope, $state) {
 .controller('ListController', [
   '$scope',
   '$state',
-function($scope) {
+  '$resource',
+function($scope, $state, $resource) {
+  var Server = $resource('/api/servers/:serverId', { serverId: '@id' });
 
+  Server.get(function(servers) {
+    $scope.servers = servers.result;
+  }, function(err) {
+    $scope.servers = [];
+    $scope.errorMessage = 'Could not get server list.';
+  });
 }]);
