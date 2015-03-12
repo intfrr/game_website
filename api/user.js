@@ -77,8 +77,8 @@ router.post('/', function(req, res, next) {
 
         var user = {
           email: email,
-          password: key.toString('base64'),
-          salt: salt.toString('base64')
+          password: key,
+          salt: salt
         }
 
         cb(null, user);
