@@ -23,4 +23,3 @@ function($scope, $state, $resource) {
     });
   }
 }])
-
