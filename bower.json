@@ -4,7 +4,7 @@
   "authors": [
     "Jordan Larson <jordan@jordonias.com>"
   ],
-  "license": "MIT",
+  "license": "GPL",
   "ignore": [
     "**/.*",
     "node_modules",
