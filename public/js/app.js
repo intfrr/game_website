@@ -32,9 +32,17 @@ angular.module('gameWebsiteApp', [
 .controller('LoginController', [
   '$scope',
   '$state',
-function($scope, $state) {
+  '$resource',
+function($scope, $state, $resource) {
   $scope.login = function() {
-    $state.go('list');
+    $resource('/api/user/login/').save({
+      username: $scope.username,
+      password: $scope.password
+    }, function(result) {
+      $state.go('list');
+    }, function(err) {
+      console.log(err);
+    });
   }
 }])
 

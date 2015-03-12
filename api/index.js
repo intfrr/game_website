@@ -3,14 +3,63 @@
  */
 
 var _ = require('lodash');
+var bodyParser = require('body-parser');
 var express = require('express');
 var fs = require('fs');
+var LocalStrategy = require('passport-local').Strategy;
+var passport = require('passport');
+var User = require('../lib/models').User;
 
 /**
  * Module variables
  */
 
 var router = module.exports = express.Router();
+
+/**
+ * Middleware
+ */
+
+router.use(bodyParser.urlencoded({ extended: false }));
+router.use(bodyParser.json());
+router.use(passport.initialize());
+router.use(passport.session());
+
+/**
+ * Passport
+ */
+
+passport.use(new LocalStrategy(
+  function(name, password, done) {
+    User.findOne({ name: name }, function(err, user) {
+      if(err) {
+        return done(err);
+      }
+      if(!user || user.password !== password) {
+        return done(null, false, {
+          message: 'Bad username or password.'
+        });
+      }
+
+      var user = user.toObject();
+      delete user._id;
+      delete user.password;
+      delete user.salt;
+
+      return done(null, user);
+    });
+  }
+));
+
+passport.serializeUser(function(user, done) {
+  done(null, user.name);
+});
+
+passport.deserializeUser(function(name, done) {
+  User.findOne({ name: name }, function(err, user) {
+    done(err, user);
+  });
+});
 
 /**
  * Add API files
