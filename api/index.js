@@ -100,3 +100,25 @@ for(var i=0; i<files.length; i++) {
     router.use('/' + parts[0], require('./' + files[i]));
   }
 }
+
+/**
+ * Error middleware
+ */
+
+router.use(function(err, req, res, next) {
+  if(res.statusCode === 200) {
+    res.status(500);
+  }
+
+  return res.json({
+    status: 'error',
+    message: err
+  });
+});
+
+router.use(function(req, res) {
+  return res.json({
+    status: 'error',
+    message: 'Not found'
+  });
+});

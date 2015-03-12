@@ -30,7 +30,7 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
  */
 
 router.post('/', function(req, res, next) {
-  res.status = 400;
+  res.status(400);
 
   if(typeof req.body.email === 'undefined') {
     return next('Must specify an email.');
@@ -48,7 +48,7 @@ router.post('/', function(req, res, next) {
   }
 
   var password = req.body.password;
-  res.status = 200;
+  res.status(200);
 
   async.waterfall([
     // Check if user already exists
@@ -58,6 +58,7 @@ router.post('/', function(req, res, next) {
     // Generate the salt
     function(user, cb) {
       if(user !== null) {
+        res.status(400);
         return cb('An account is already registered to that email.');
       }
 
@@ -97,6 +98,9 @@ router.post('/', function(req, res, next) {
       });
     }
   ], function(err, result) {
+    if(err) {
+      return next(err);
+    }
     return res.json({
       status: 'OK',
       result: result
