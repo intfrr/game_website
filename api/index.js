@@ -4,6 +4,7 @@
 
 var _ = require('lodash');
 var bodyParser = require('body-parser');
+var crypto = require('crypto');
 var express = require('express');
 var fs = require('fs');
 var LocalStrategy = require('passport-local').Strategy;
@@ -37,18 +38,39 @@ passport.use(new LocalStrategy({
       if(err) {
         return done(err);
       }
-      if(!user || user.password !== password) {
+
+      if(!user) {
         return done(null, false, {
           message: 'Bad username or password.'
         });
       }
 
-      var user = user.toObject();
-      delete user._id;
-      delete user.password;
-      delete user.salt;
+      crypto.pbkdf2(password, user.salt, 8192, 512, function(err, key) {
+        if(err) {
+          return done(null, false, {
+            message: 'Internal server error. Try again.'
+          });
+        }
 
-      return done(null, user);
+        if(key.length !== user.password.length) {
+          return done(null, false, {
+            message: 'Bad username or password.'
+          });
+        }
+
+        for(var i=0; i<key.length; i++) {
+          if(key[i] !== user.password[i]) {
+            return done(null, false, {
+              message: 'Bad username or password.'
+            });
+          }
+        }
+
+        return done(null, {
+          _id: user.id,
+          email: user.email
+        });
+      });
     });
   }
 ));
