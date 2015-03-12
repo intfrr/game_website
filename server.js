@@ -6,6 +6,7 @@ var api = require('./api');
 var config = require('./config');
 var express = require('express');
 var http = require('http');
+var logger = require('morgan');
 var seaport = require('seaport');
 var sio = require('socket.io');
 
@@ -17,6 +18,12 @@ var app = express();
 var server = http.Server(app);
 var io = sio(server);
 var ports = seaport.connect('localhost', 9090);
+
+/**
+ * Middleware
+ */
+
+app.use(logger('dev'));
 
 /**
  * Routes
