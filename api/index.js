@@ -16,6 +16,10 @@ var User = require('../lib/models').User;
  */
 
 var router = module.exports = express.Router();
+var noAuthRequired = [
+  ['/user/login', 'post'],
+  ['/user', 'post']
+];
 
 /**
  * Middleware
@@ -83,6 +87,20 @@ passport.deserializeUser(function(email, done) {
   User.findOne({ email: email }, function(err, user) {
     done(err, user);
   });
+});
+
+router.use(function(req, res, next) {
+  for(var i=0; i<noAuthRequired.length; i++) {
+    if(req.url === noAuthRequired[i][0] &&
+        req.method.toLowerCase() === noAuthRequired[i][1]) {
+      return next();
+    }
+  }
+  if(req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401);
+  return next('Not authorized.');
 });
 
 /**
