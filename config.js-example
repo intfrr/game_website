@@ -1,3 +1,4 @@
 module.exports = {
   port: 1177
+  session_secret: 'somesecret'
 }
