@@ -9,6 +9,7 @@ var http = require('http');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var seaport = require('seaport');
+var session = require('express-session');
 var sio = require('socket.io');
 
 /**
@@ -31,6 +32,11 @@ mongoose.connect('mongodb://localhost/game');
  */
 
 app.use(logger('dev'));
+app.use(session({
+  secret: config.session_secret,
+  resave: false,
+  saveUninitialized: true
+}));
 
 /**
  * Routes
