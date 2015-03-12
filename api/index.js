@@ -29,9 +29,11 @@ router.use(passport.session());
  * Passport
  */
 
-passport.use(new LocalStrategy(
-  function(name, password, done) {
-    User.findOne({ name: name }, function(err, user) {
+passport.use(new LocalStrategy({
+    usernameField: 'email'
+  },
+  function(email, password, done) {
+    User.findOne({ email: email }, function(err, user) {
       if(err) {
         return done(err);
       }
@@ -52,11 +54,11 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser(function(user, done) {
-  done(null, user.name);
+  done(null, user.email);
 });
 
-passport.deserializeUser(function(name, done) {
-  User.findOne({ name: name }, function(err, user) {
+passport.deserializeUser(function(email, done) {
+  User.findOne({ email: email }, function(err, user) {
     done(err, user);
   });
 });

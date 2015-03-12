@@ -35,10 +35,7 @@ angular.module('gameWebsiteApp', [
   '$resource',
 function($scope, $state, $resource) {
   $scope.login = function() {
-    $resource('/api/user/login/').save({
-      username: $scope.username,
-      password: $scope.password
-    }, function(result) {
+    $resource('/api/user/login/').save($scope.query, function() {
       $state.go('list');
     }, function(err) {
       console.log(err);
