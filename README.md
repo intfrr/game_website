@@ -1,1 +1,6 @@
-Readme soon
+Installation:
+
+```
+npm install
+bower install
+```
