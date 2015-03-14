@@ -4,3 +4,12 @@
   cursor: pointer;
   cursor: hand;
 }
+
+.cond {
+  color: #c0392b;
+  font-size: 12px;
+}
+
+.cond-met {
+  color: #16a085;
+}
