@@ -30,28 +30,32 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
  */
 
 router.post('/', function(req, res, next) {
-  res.status(400);
-
   if(typeof req.body.email === 'undefined') {
+    res.status(400);
     return next('Must specify an email.');
   }
 
   var email = req.body.email;
 
+  if(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+    res.status(400);
+    return next('Invalid email.');
+  }
+
   if(typeof req.body.password === 'undefined') {
+    res.status(400);
     return next('Must specify a password.');
   }
 
   var password = req.body.password;
 
-  if(!/^((?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{8,20})$/.test(password)) {
-    return next('Invalid password.');
+  if(!/^[a-zA-Z0-9!@#$%&*]{8,20}$/.test(password)) {
+    res.status(400);
+    return next('Password does not meet criteria.');
   }
 
-  res.status(200);
-
   async.waterfall([
-    // Check if user already exists
+    // Check if email already exists
     function(cb) {
       User.findOne({ email: req.body.email }, cb);
     },
@@ -101,9 +105,14 @@ router.post('/', function(req, res, next) {
     if(err) {
       return next(err);
     }
-    return res.json({
-      status: 'OK',
-      result: result
+    req.login(result, function(err) {
+      if(err) {
+        return res.send('hi');
+      }
+      return res.json({
+        status: 'OK',
+        result: result
+      });
     });
   });
 });
