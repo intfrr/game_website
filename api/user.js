@@ -42,12 +42,12 @@ router.post('/', function(req, res, next) {
     return next('Must specify a password.');
   }
 
-  if(typeof req.body.confirmPassword === 'undefined' ||
-      req.body.confirmPassword !== req.body.password) {
-    return next('Passwords must match.');
+  var password = req.body.password;
+
+  if(!/^((?=.*\d)(?=.*[a-zA-Z])[a-zA-Z0-9!@#$%&*]{8,20})$/.test(password)) {
+    return next('Invalid password.');
   }
 
-  var password = req.body.password;
   res.status(200);
 
   async.waterfall([
