@@ -6,8 +6,16 @@ angular.module('app.login', [
   $stateProvider
     .state('login', {
       url: '/',
-      templateUrl: 'login.html',
-      controller: 'LoginController'
+      views: {
+        '': {
+          templateUrl: 'login.html',
+          controller: 'LoginController'
+        },
+        'nav@': {
+          templateUrl: 'nav-out.html',
+          controller: 'NavOutController'
+        }
+      }
     })
 })
 .controller('LoginController', [

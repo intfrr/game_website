@@ -6,8 +6,16 @@ angular.module('app.list', [
   $stateProvider
     .state('list', {
       url: '/list',
-      templateUrl: 'list.html',
-      controller: 'ListController'
+      views: {
+        '': {
+          templateUrl: 'list.html',
+          controller: 'ListController',
+        },
+        'nav@': {
+          templateUrl: 'nav-in.html',
+          controller: 'NavInController'
+        }
+      }
     });
 })
 .controller('ListController', [

@@ -6,9 +6,17 @@ angular.module('app.register', [
   $stateProvider
     .state('register', {
       url: '/register',
-      templateUrl: 'register.html',
-      controller: 'RegisterController'
-    })
+      views: {
+        '': {
+          templateUrl: 'register.html',
+          controller: 'RegisterController'
+        },
+        'nav@': {
+          templateUrl: 'nav-out.html',
+          controller: 'NavOutController'
+        }
+      }
+    });
 })
 .controller('RegisterController', [
   '$scope',

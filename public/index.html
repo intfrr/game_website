@@ -11,12 +11,17 @@
   <link href="css/style.css" rel="stylesheet">
 </head>
 <body>
+  <nav class="navbar navbar-default">
+    <div class="container" ui-view="nav">
+    </div>
+  </nav>
   <div class="container" style="margin-top: 20px;" ui-view></div>
 
   <script src="components/angular/angular.js"></script>
   <script src="components/ui-router/release/angular-ui-router.js"></script>
   <script src="components/angular-resource/angular-resource.js"></script>
   <script src="js/app.js"></script>
+  <script src="js/nav.js"></script>
   <script src="js/login.js"></script>
   <script src="js/list.js"></script>
   <script src="js/register.js"></script>

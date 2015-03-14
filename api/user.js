@@ -26,6 +26,26 @@ router.post('/login', passport.authenticate('local'), function(req, res) {
 });
 
 /**
+ * GET /api/user/logout
+ */
+
+router.get('/logout', function(req, res) {
+  req.logout();
+  return res.redirect('/');
+});
+
+/**
+ * GET /api/user
+ */
+
+router.get('/', function(req, res, next) {
+  return res.json({
+    status: 'OK',
+    result: req.user
+  });
+});
+
+/**
  * POST /api/user
  */
 

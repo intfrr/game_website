@@ -3,6 +3,7 @@
 angular.module('gameWebsiteApp', [
   'ui.router',
   'ngResource',
+  'nav',
   'app.login',
   'app.list',
   'app.register'

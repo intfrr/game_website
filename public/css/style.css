@@ -6,6 +6,10 @@ a:hover {
   color: #2980b9;
 }
 
+a.btn-primary {
+  color: #ffffff;
+}
+
 #password-eye {
   font-size: 16px;
   line-height: 34px;
