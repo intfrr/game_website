@@ -1,3 +1,11 @@
+a, a:visited, a:active {
+  color: #3498db;
+}
+
+a:hover {
+  color: #2980b9;
+}
+
 #password-eye {
   font-size: 16px;
   line-height: 34px;
