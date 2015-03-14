@@ -57,7 +57,7 @@ router.post('/', function(req, res, next) {
 
   var email = req.body.email;
 
-  if(/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+  if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
     res.status(400);
     return next('Invalid email.');
   }
