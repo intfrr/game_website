@@ -89,6 +89,7 @@ function($scope, $state, $resource) {
       $resource('/api/user').save($scope.query, function() {
         $state.go('list');
       }, function(err) {
+        $scope.flash = err.data.message;
       });
     } else {
       angular.element(document.querySelector('#register-button'))

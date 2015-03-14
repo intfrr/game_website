@@ -25,3 +25,8 @@ a.btn-primary {
 .cond-met {
   color: #16a085;
 }
+
+.flash-message {
+  margin-top: 5px;
+  color: #c0392b;
+}
