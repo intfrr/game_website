@@ -17,9 +17,10 @@ var User = require('../lib/models').User;
 
 var router = module.exports = express.Router();
 var noAuthRequired = [
+  ['/user', 'post'],
   ['/user/login', 'post'],
   ['/user/logout', 'get'],
-  ['/user', 'post']
+  ['/user/reset', 'post']
 ];
 
 /**

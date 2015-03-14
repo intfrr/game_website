@@ -3,8 +3,10 @@
  */
 
 var async = require('async');
+var config = require('../config');
 var crypto = require('crypto');
 var express = require('express');
+var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../lib/models').User;
 
@@ -134,5 +136,37 @@ router.post('/', function(req, res, next) {
         result: result
       });
     });
+  });
+});
+
+/**
+ * POST /api/user/reset
+ */
+
+router.use('/reset', function(req, res, next) {
+  if(typeof req.body.email === 'undefined') {
+    res.status(400);
+    return next('Must specify an email.');
+  }
+
+  var email = req.body.email;
+
+  if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+    res.status(400);
+    return next('Invalid email.');
+  }
+
+  var transporter = nodemailer.createTransport(config.smtp);
+
+  transporter.sendMail({
+    from: config.smtp.auth.user,
+    to: email,
+    subject: 'Password reset',
+    text: 'This will be for password resets'
+  });
+
+  return res.json({
+    status: 'OK',
+    result: 1
   });
 });
