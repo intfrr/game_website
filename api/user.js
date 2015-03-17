@@ -15,6 +15,7 @@ var User = require('../lib/models').User;
  */
 
 var router = module.exports = express.Router();
+var transporter = nodemailer.createTransport(config.smtp);
 
 /**
  * POST /api/user/login
@@ -149,24 +150,55 @@ router.use('/reset', function(req, res, next) {
     return next('Must specify an email.');
   }
 
-  var email = req.body.email;
-
-  if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(email)) {
+  if(!/^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$/.test(req.body.email)) {
     res.status(400);
     return next('Invalid email.');
   }
 
-  var transporter = nodemailer.createTransport(config.smtp);
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if(err) {
+      return next('Failed to submit reset request. Try later.');
+    }
+    if(!user) {
+      res.status(400);
+      return next('Invalid email.');
+    }
+    if(user.reset.status) {
+      if(Date.now() - user.reset.requestedAt.getTime() < 60*60*1000) {
+        res.status(400);
+        return next('Reset already requested in the last hour.');
+      }
+    }
 
-  transporter.sendMail({
-    from: config.smtp.auth.user,
-    to: email,
-    subject: 'Password reset',
-    text: 'This will be for password resets'
-  });
+    crypto.randomBytes(32, function(err, buf) {
+      if(err) {
+        return next('Failed to submit reset request. Try later.');
+      }
 
-  return res.json({
-    status: 'OK',
-    result: 1
+      var token = buf.toString('hex');
+
+      user.reset.status = true;
+      user.reset.requestedAt = new Date();
+      user.reset.token = token;
+
+      user.save(function(err) {
+        if(err) {
+          return next('Failed to submit reset request. Try later.');
+        }
+
+        transporter.sendMail({
+          from: config.smtp.auth.user,
+          to: user.email,
+          subject: 'Password reset',
+          text: 'A request was made to reset your password\n' +
+            'Visit http://game.jordonias.com/api/user/recover/' + token
+        });
+
+        return res.json({
+          status: 'OK',
+          result: 1
+        });
+      });
+    });
   });
 });
