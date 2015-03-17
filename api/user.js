@@ -164,13 +164,15 @@ router.use('/reset', function(req, res, next) {
       return next('Invalid email.');
     }
     if(user.reset.status) {
+      /*
       if(Date.now() - user.reset.requestedAt.getTime() < 60*60*1000) {
         res.status(400);
         return next('Reset already requested in the last hour.');
       }
+      */
     }
 
-    crypto.randomBytes(32, function(err, buf) {
+    crypto.randomBytes(16, function(err, buf) {
       if(err) {
         return next('Failed to submit reset request. Try later.');
       }
@@ -190,8 +192,9 @@ router.use('/reset', function(req, res, next) {
           from: config.smtp.auth.user,
           to: user.email,
           subject: 'Password reset',
+          // TODO: Template
           text: 'A request was made to reset your password\n' +
-            'Visit http://game.jordonias.com/api/user/recover/' + token
+            'Visit http://game.jordonias.com/api/user/recover/' + token + '?user=' + user.email
         });
 
         return res.json({
