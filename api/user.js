@@ -144,7 +144,7 @@ router.post('/', function(req, res, next) {
  * POST /api/user/reset
  */
 
-router.use('/reset', function(req, res, next) {
+router.post('/reset', function(req, res, next) {
   if(typeof req.body.email === 'undefined') {
     res.status(400);
     return next('Must specify an email.');
