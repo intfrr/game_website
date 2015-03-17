@@ -16,11 +16,12 @@ var User = require('../lib/models').User;
  */
 
 var router = module.exports = express.Router();
-var noAuthRequired = [
+var noAuth = [
   ['/user', 'post'],
   ['/user/login', 'post'],
   ['/user/logout', 'get'],
-  ['/user/reset', 'post']
+  ['/user/reset', 'post'],
+  ['/user/recover/*', 'get']
 ];
 
 /**
@@ -92,10 +93,14 @@ passport.deserializeUser(function(email, done) {
 });
 
 router.use(function(req, res, next) {
-  for(var i=0; i<noAuthRequired.length; i++) {
-    if(req.url === noAuthRequired[i][0] &&
-        req.method.toLowerCase() === noAuthRequired[i][1]) {
-      return next();
+  for(var i=0; i<noAuth.length; i++) {
+    if(req.method.toLowerCase() === noAuth[i][1]) {
+      var authUrl = noAuth[i][0];
+      if((authUrl.slice(-2) === '/*' &&
+          req.url.indexOf(authUrl.substring(0, authUrl.length-2)) === 0) ||
+          req.url === authUrl) {
+        return next();
+      }
     }
   }
   if(req.isAuthenticated()) {
