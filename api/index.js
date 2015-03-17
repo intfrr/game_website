@@ -130,9 +130,16 @@ router.use(function(err, req, res, next) {
     res.status(500);
   }
 
+  var message;
+  if(typeof err === 'string') {
+    message = err;
+  } else {
+    message = 'Internal server error.'
+  }
+
   return res.json({
     status: 'error',
-    message: err
+    message: message
   });
 });
 
