@@ -194,7 +194,7 @@ router.post('/reset', function(req, res, next) {
           subject: 'Password reset',
           // TODO: Template
           text: 'A request was made to reset your password\n' +
-            'Visit http://game.jordonias.com/api/user/recover/' + token + '?user=' + user.email
+            'Visit http://game.jordonias.com/api/user/recover/' + token + '?email=' + user.email
         });
 
         return res.json({
@@ -202,6 +202,23 @@ router.post('/reset', function(req, res, next) {
           result: 1
         });
       });
+    });
+  });
+});
+
+/**
+ * GET /api/user/recover/:token
+ */
+
+router.get('/recover/:token', function(req, res, next) {
+  if(typeof req.query.email === 'undefined') {
+    res.status(400);
+    return next('No email specified.');
+  }
+
+  User.findOne({ email: req.query.email }, function(err, user) {
+    return res.json({
+      test: 'reset here'
     });
   });
 });
