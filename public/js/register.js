@@ -28,25 +28,6 @@ function($scope, $state, $resource) {
     password: ''
   };
 
-  // TODO: show/hide password to directive
-  $scope.showPassword = function() {
-    angular.element(document.querySelector('#password'))
-      .css('display', 'none')
-    angular.element(document.querySelector('#password-reveal'))
-      .css('display', 'block')
-    angular.element(document.querySelector('#password-eye'))
-      .css('color', '#337ab7')
-  }
-
-  $scope.hidePassword = function() {
-    angular.element(document.querySelector('#password-reveal'))
-      .css('display', 'none');
-    angular.element(document.querySelector('#password'))
-      .css('display', 'block');
-    angular.element(document.querySelector('#password-eye'))
-      .css('color', '')
-  }
-
   $scope.emailConditions = [{
     message: 'Valid email address',
     test: function() {
@@ -56,6 +37,7 @@ function($scope, $state, $resource) {
     }
   }];
 
+  // TODO: Different way to do these
   $scope.passConditions = [{
     message: 'Between 8 and 20 characters',
     test: function() {

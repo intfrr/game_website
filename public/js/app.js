@@ -8,7 +8,8 @@ angular.module('gameWebsiteApp', [
   'app.list',
   'app.register',
   'app.reset',
-  'app.recover'
+  'app.recover',
+  'revealPassword'
 ])
 .config(function($stateProvider, $urlRouterProvider) {
   $urlRouterProvider.otherwise('/');
