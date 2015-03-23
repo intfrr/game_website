@@ -87,7 +87,14 @@ passport.serializeUser(function(user, done) {
 });
 
 passport.deserializeUser(function(email, done) {
-  User.findOne({ email: email }, function(err, user) {
+  User.findOne({
+    email: email
+  }, {
+    password: 0,
+    salt: 0,
+    reset: 0,
+    __v: 0
+  }, function(err, user) {
     done(err, user);
   });
 });
