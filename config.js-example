@@ -1,6 +1,7 @@
 module.exports = {
   port: 1177,
   session_secret: 'somesecret',
+  token_secret: 'anothersecret',
   smtp: {
     service: 'gmail',
     auth: {

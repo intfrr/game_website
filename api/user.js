@@ -6,6 +6,7 @@ var async = require('async');
 var config = require('../config');
 var crypto = require('crypto');
 var express = require('express');
+var jwt = require('jsonwebtoken');
 var nodemailer = require('nodemailer');
 var passport = require('passport');
 var User = require('../lib/models').User;
@@ -220,5 +221,21 @@ router.get('/recover/:token', function(req, res, next) {
     return res.json({
       test: 'reset here'
     });
+  });
+});
+
+/**
+ * GET /api/user/token
+ */
+
+router.get('/token', function(req, res, next) {
+  // TODO: Use priv/pub keys
+  var token = jwt.sign(req.user, config.token_secret, {
+    expiresInMinutes: 1440
+  });
+
+  return res.json({
+    status: 'OK',
+    result: token
   });
 });

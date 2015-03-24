@@ -94,7 +94,7 @@ passport.deserializeUser(function(email, done) {
     salt: 0,
     reset: 0,
     __v: 0
-  }, function(err, user) {
+  }).lean().exec(function(err, user) {
     done(err, user);
   });
 });
