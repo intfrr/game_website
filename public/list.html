@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-striped table-hover">
   <tr>
     <th>Host</th>
     <th>Port</th>
@@ -8,5 +8,6 @@
     <td>{{server.host}}</td>
     <td>{{server.port}}</td>
     <td>{{server.version}}</td>
+    <td><a href="/play/{{server.host}}:{{server.port}}/{{server.version}}">Play</a></td>
   </tr>
 </table>

@@ -8,6 +8,7 @@ var express = require('express');
 var http = require('http');
 var logger = require('morgan');
 var mongoose = require('mongoose');
+var play = require('./play');
 var seaport = require('seaport');
 var session = require('express-session');
 var sio = require('socket.io');
@@ -39,10 +40,21 @@ app.use(session({
 }));
 
 /**
- * Routes
+ * API
  */
 
 app.use('/api', api);
+
+/**
+ * Play
+ */
+
+app.use('/play', play);
+
+/**
+ * Static files
+ */
+
 app.use(express.static(__dirname + '/public'));
 
 /**
