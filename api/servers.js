@@ -2,6 +2,7 @@
  * Module dependencies
  */
 
+var config = require('../config');
 var express = require('express');
 var seaport = require('seaport');
 
@@ -21,7 +22,7 @@ router.get('/', function(req, res, next) {
     // TODO: Manage different host names?
     for(var i=0; i<ps.length; i++) {
       if(ps[i].host === '127.0.0.1') {
-        ps[i].host = 'jordonias.com';
+        ps[i].host = config.localhost;
       }
     }
     return res.json({
