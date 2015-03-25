@@ -27,7 +27,7 @@ router.get('/:server/:version', function(req, res, next) {
 
     var view = {
       server: server,
-      client: clientUrl
+      client: client
     }
 
     var rendered = mustache.render(template, view);
