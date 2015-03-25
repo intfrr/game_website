@@ -23,13 +23,11 @@ router.get('/:server/:version', function(req, res, next) {
   fs.readFile(__dirname + '/template.html', function(err, file) {
     var template = file.toString()
 
-    var clientUrl = '/clients/' + version + '/game.js';
-    var craftyUrl = '/clients/' +  version + '/components/crafty/dist/crafty.js';
+    var client = '/clients/' + version + '/build/game.js';
 
     var view = {
       server: server,
-      client: clientUrl,
-      crafty: craftyUrl
+      client: clientUrl
     }
 
     var rendered = mustache.render(template, view);
