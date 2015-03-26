@@ -17,8 +17,8 @@ var router = module.exports = express.Router();
  */
 
 router.get('/:server/:version', function(req, res, next) {
-  var server = req.param('server');
-  var version = req.param('version');
+  var server = req.params.server;
+  var version = req.params.version;
 
   fs.readFile(__dirname + '/template.html', function(err, file) {
     var template = file.toString()
