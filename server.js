@@ -9,6 +9,7 @@ var http = require('http');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 var play = require('./play');
+var releases = require('./lib/releases');
 var seaport = require('seaport');
 var session = require('express-session');
 var sio = require('socket.io');
@@ -70,6 +71,23 @@ io.on('connection', function(socket) {
     console.log(data);
   });
 });
+
+/**
+ * Client releases
+ */
+
+var getReleases = function() {
+  releases.get(function(err, releases) {
+    if(err) {
+      console.log('Error: Failed to get client releases.');
+    } else if(releases.length) {
+      var list = releases.join(', ');
+      console.log('Downloaded clients: [' + list + ']');
+    }
+    setTimeout(getReleases, 60*1000);
+  });
+}
+getReleases();
 
 /**
  * Start the server

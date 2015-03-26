@@ -9,5 +9,9 @@ module.exports = {
       user: 'some@email.com',
       pass: 'password'
     }
+  },
+  github: {
+    user: 'username',
+    pass: 'password'
   }
 }
