@@ -5,6 +5,7 @@
 var express = require('express');
 var fs = require('fs');
 var mustache = require('mustache');
+var servers = require('../lib/servers');
 
 /**
  * Module variables
@@ -13,20 +14,22 @@ var mustache = require('mustache');
 var router = module.exports = express.Router();
 
 /**
- * GET /play/:server/:version
+ * GET /play/:serverid
  */
 
-router.get('/:server/:version', function(req, res, next) {
-  var server = req.params.server;
-  var version = req.params.version;
+router.get('/:serverid', function(req, res, next) {
+  var id = req.params.serverid;
 
   fs.readFile(__dirname + '/template.html', function(err, file) {
     var template = file.toString()
 
-    var client = '/clients/' + version + '/build/game.js';
+    var server = servers.get(id);
+
+    var socketUrl = server.host + ':' + server.port;
+    var client = '/clients/' + server.version + '/build/game.js';
 
     var view = {
-      server: server,
+      server: socketUrl,
       client: client
     }
 

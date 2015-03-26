@@ -11,6 +11,7 @@ var mongoose = require('mongoose');
 var play = require('./play');
 var releases = require('./lib/releases');
 var seaport = require('seaport');
+var servers = require('./lib/servers');
 var session = require('express-session');
 var sio = require('socket.io');
 
@@ -88,6 +89,17 @@ var getReleases = function() {
   });
 }
 getReleases();
+
+/**
+ * Servers
+ */
+
+var getServers = function() {
+  servers.find(function() {
+    setTimeout(getServers, 60*1000);
+  });
+}
+getServers();
 
 /**
  * Start the server
