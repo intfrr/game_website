@@ -20,7 +20,7 @@
     "lodash": "~3.6.0",
     "mocha": "~2.2.1",
     "mongoose": "~4.0.1",
-    "morgan": "~1.5.1",
+    "morgan": "~1.5.2",
     "mustache": "~1.1.0",
     "nodemailer": "~1.3.2",
     "passport": "~0.2.1",
